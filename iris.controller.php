@@ -13,8 +13,19 @@
 
     // Training.
     // Regression with 'SVR'.
+    $activateRestoreFromFile = false;
     $classification = new \Phpml\Classification\KNearestNeighbors(3);
     $classification->train($dataset->getTrainSamples(), $dataset->getTrainLabels());
+
+    $activateModelManager = true;
+    if($activateModelManager) {
+        $modelManager = new \Phpml\ModelManager();
+        $modelManager->saveToFile($classification, './models/classifer');
+
+        if($activateRestoreFromFile) {
+            $classifer = $modelManager->restoreFromFile('./models/classifer');
+        }
+    }
     $predicted = $classification->predict($dataset->getTestSamples());
 
     $clustering = new \Phpml\Clustering\KMeans(3);
