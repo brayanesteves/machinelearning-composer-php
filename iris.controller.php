@@ -2,7 +2,7 @@
     require "vendor/autoload.php";
 
     // Loading the data.
-    $data = new \Phpml\Dataset\CsvDataset('./data/wine.csv', 13, true);
+    $data = new \Phpml\Dataset\CsvDataset('./data/iris.csv', 4, true);
 
     // Preprocessing data.
     $dataset = new \Phpml\CrossValidation\StratifiedRandomSplit($data, 0.2, 156);
@@ -13,17 +13,12 @@
 
     // Training.
     // Regression with 'SVR'.
-    $regression = new \Phpml\Regression\SVR();
-    $regression->train($dataset->getTrainSamples(), $dataset->getTrainLabels());
-    $predicted = $regression->predict($dataset->getTestSamples());
+    $classification = new \Phpml\Classification\KNearestNeighbors(3);
+    $classification->train($dataset->getTrainSamples(), $dataset->getTrainLabels());
+    $predicted = $classification->predict($dataset->getTestSamples());
 
     // Evaluating machine learning models.
-    $score = \Phpml\Metric\Regression::r2Score($dataset->getTestLabels(), $predicted);
-    echo "r2score is : " . $score . PHP_EOL;
-
-    foreach($predicted as &$target) {
-        $target = round($target, 0);
-    }
+    
     $accuracy = \Phpml\Metric\Accuracy::score($dataset->getTestLabels(), $predicted);
     echo "Accuracy is : " . $accuracy . PHP_EOL;
 

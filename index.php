@@ -17,7 +17,7 @@
     $regression->train($dataset->getTrainSamples(), $dataset->getTrainLabels());
     $predict = $regression->predict($dataset->getTestSamples());
 
-    // Evaluating machine learn9ing models.
+    // Evaluating machine learning models.
     $score = \Phpml\Metric\Regression::r2Score($dataset->getTestLabels(), $predict);
     echo "r2score is : " . $score;
 
